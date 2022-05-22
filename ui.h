@@ -20,6 +20,9 @@ private:
 public:
     explicit UI(ProdusService &_produsService, BaniService &_baniService, Service &_service ) : produsService {_produsService},baniService {_baniService}, service {_service}{};
 
+    bool stringValidator(const std::string& string);
+    bool isNumber(const std::string& str);
+    static bool moneyValidator(int val);
 
     void add();
     void remove();
@@ -27,7 +30,7 @@ public:
     void showAll();
     void get();
     void getSize();
-    void help();
+    static void help();
     void run();
     ~UI() = default;
     void addB();

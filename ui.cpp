@@ -11,216 +11,287 @@
 #include "Service bani.h"
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 void UI::add() {
-int cod, pret;
-char nume[100];
-cout<<"introdu cod";
-cin>>cod;
-cout<<"introdu nume";
-cin>>nume;
-cout<<"introdu pret";
-cin>>pret;
-Produs produs;
-produs=Produs(cod,nume,pret);
-produsService.addProdus(produs);
+    std::string cod, pret, nume;
+    cout << "introdu cod";
+    std::getline(std::cin, cod);
+    std::getline(std::cin, cod);
+    cout << "introdu nume";
+    std::getline(std::cin, nume);
+    cout << "introdu pret";
+    std::getline(std::cin, pret);
+    Produs produs;
+    try{
+        produs = Produs(stoi(cod), nume, stoi(pret));
+        produsService.addProdus(produs);
+    } catch (std::invalid_argument& e){
+        std::cerr << "ERROR!!!\n";
+    }
 };
 
 void UI::remove() {
-    int cod;
-cout<<"introdu cod";
-cin>>cod;
-produsService.removeProduct(cod);
+    std::string cod;
+    cout << "introdu cod";
+    cin >> cod;
+    try {
+        produsService.removeProduct(std::stoi(cod));
+    } catch (std::invalid_argument &e) {
+        std::cerr << "ERROR\n";
+    }
 }
 
 void UI::update() {
-    int cod, pret;
-    char nume[100];
-    cout<<"introdu cod";
-    cin>>cod;
-    cout<<"introdu nume";
-    cin>>nume;
-    cout<<"introdu pret";
-    cin>>pret;
+    std::string cod, pret, nume;
+    cout << "introdu cod";
+    std::getline(std::cin, cod);
+    std::getline(std::cin, cod);
+    cout << "introdu nume";
+    std::getline(std::cin, nume);
+    cout << "introdu pret";
+    std::getline(std::cin, pret);
     Produs produs;
-    produs=Produs(cod,nume,pret);
-    produsService.updateProdus(produs);
+    try{
+        produs = Produs(stoi(cod), nume, stoi(pret));
+        produsService.updateProdus(produs);
+    } catch (std::invalid_argument& e){
+        std::cerr << "ERROR!!!";
+    }
 }
 
 void UI::showAll() {
-    vector<Produs>all;
-all=produsService.getAll();
-for(int i=0;i<produsService.getSize();i++){
-    cout<<all[i].getCod()<<' '<<all[i].getNume()<<' '<<all[i].getPret()<<"\n";}
+    vector<Produs> all;
+    all = produsService.getAll();
+    for (int i = 0; i < produsService.getSize(); i++) {
+        cout << all[i].getCod() << ' ' << all[i].getNume() << ' ' << all[i].getPret() << "\n";
+    }
 
 }
 
 void UI::get() {
-    int cod;
-    cout<<"introdu cod";
-    cin>>cod;
+    std::string cod;
+    cout << "introdu cod";
+    cin >> cod;
     Produs produs;
-    produs=produsService.getProdus(cod);
-    cout<<produs.getCod()<<' '<<produs.getNume()<<' '<<produs.getPret()<<"\n";
+    try {
+        produs = produsService.getProdus(stoi(cod));
+        cout << produs.getCod() << ' ' << produs.getNume() << ' ' << produs.getPret() << "\n";
+    } catch (std::invalid_argument& e) {
+        std::cerr << "ERROR\n";
+        return;
+    }
 }
 
 void UI::getSize() {
-cout<<produsService.getSize();
+    cout << produsService.getSize();
 }
 
 void UI::help() {
-cout<<" 1 add, 2 remove, 3 update, a showall, p show product by code, s show size, x exit, h help\n";
-    cout<<"4 add, 5 remove, 6 update, 7 delete, A showall, b show bani by valaore, S show size, R rest din un nr introdus de la tastatura\n";
-    cout<<"r get rest, 8 add credit, 9 buy product, l show credit,\n";
+    cout << " 1 add, 2 remove, 3 update, a showall, p show product by code, s show size, x exit, h help\n";
+    cout << "4 add, 5 remove, 6 update, 7 delete, A showall, b show bani by valaore, S show size, R rest din un nr introdus de la tastatura\n";
+    cout << "r get rest, 8 add credit, 9 buy product, l show credit,\n";
 }
 
 void UI::run() {
-    bool run= true;
+    bool run = true;
     this->help();
     while (run) {
         char option;
-        cin>>option;
-        switch(option)
-        {
-            case 'x':
-            {
-                run= false;
-                break;}
-            case '1':{
+        cin >> option;
+        switch (option) {
+            case 'x': {
+                run = false;
+                break;
+            }
+            case '1': {
                 this->add();
-                break;}
-            case '2':
-            {this->remove();
-                break;}
-            case '3':
-            {this->update();
-                break;}
-            case 'h':
-            {this->help();
-                break;}
-            case 'a':
-            {this->showAll();
-                break;}
-            case 's':
-            {this->getSize();
-                break;}
-            case 'p':
-                {this->get();
-                    break;}
-            case '4':{
+                break;
+            }
+            case '2': {
+                this->remove();
+                break;
+            }
+            case '3': {
+                this->update();
+                break;
+            }
+            case 'h': {
+                this->help();
+                break;
+            }
+            case 'a': {
+                this->showAll();
+                break;
+            }
+            case 's': {
+                this->getSize();
+                break;
+            }
+            case 'p': {
+                this->get();
+                break;
+            }
+            case '4': {
                 this->addB();
-                break;}
-            case '5':
-            {this->removeB();
-                break;}
-            case '6':
-            {this->updateB();
-                break;}
-            case '7':
-            {
+                break;
+            }
+            case '5': {
+                this->removeB();
+                break;
+            }
+            case '6': {
+                this->updateB();
+                break;
+            }
+            case '7': {
                 this->del();
-                break;}
+                break;
+            }
 
-            case 'A':
-            {this->showAllB();
-                break;}
-            case 'S':
-            {this->getSizeB();
-                break;}
-            case 'b':
-            {this->getB();
-                break;}
-            case 'R':
-            {this->rest();
-                break;}
-            case 'r':
-            {this->getRest();
-                break;}
-            case '9':
-            {this->buy();
-                break;}
-            case '8':
-            {this->addCredit();
-                break;}
-            case 'l':
-            {this->showCredit();
-                break;}
+            case 'A': {
+                this->showAllB();
+                break;
+            }
+            case 'S': {
+                this->getSizeB();
+                break;
+            }
+            case 'b': {
+                this->getB();
+                break;
+            }
+            case 'R': {
+                this->rest();
+                break;
+            }
+            case 'r': {
+                this->getRest();
+                break;
+            }
+            case '9': {
+                this->buy();
+                break;
+            }
+            case '8': {
+                this->addCredit();
+                break;
+            }
+            case 'l': {
+                this->showCredit();
+                break;
+            }
             default:
-                cout<<"optiune invalida";
+                cout << "optiune invalida";
 
         }
 
 
-}
-
-
+    }
 
 
 }
 
 void UI::updateB() {
-int valaore,cantitate;
-cout<<"introdu valoare";
-cin>>valaore;
-cout<<"introdu cantitate";
-cin>>cantitate;
-Bani bani;
-bani=Bani(valaore,cantitate);
-baniService.updateBani(bani);
-
+    try {
+        std::string valaore, cantitate;
+        cout << "introdu valoare";
+        cin >> valaore;
+        UI::moneyValidator(stoi(valaore));
+        cout << "introdu cantitate";
+        cin >> cantitate;
+        Bani bani;
+        bani = Bani(stoi(valaore), stoi(cantitate));
+        baniService.updateBani(bani);
+    } catch (std::invalid_argument &invalid_argument) {
+        std::cerr << "error\n";
+    } catch (std::exception &exception) {
+        std::cerr << "error\n";
+    }
 }
 
 void UI::addB() {
-    unsigned int valaore,cantitate;
-    cout<<"introdu valoare";
-    cin>>valaore;
-    cout<<"introdu cantitate";
-    cin>>cantitate;
-    Bani bani;
-    bani=Bani(valaore,cantitate);
-    baniService.addBani(bani);
+    try {
+        std::string valaore, cantitate;
+        cout << "introdu valoare";
+        cin >> valaore;
+        UI::moneyValidator(stoi(valaore));
+        cout << "introdu cantitate";
+        cin >> cantitate;
+        Bani bani;
+        bani = Bani(stoi(valaore), stoi(cantitate));
+        baniService.addBani(bani);
+    } catch (std::invalid_argument &invalid_argument) {
+        std::cerr << "error\n";
+    } catch (std::exception &exception) {
+        std::cerr << "error\n";
+    }
 }
 
 void UI::removeB() {
-    unsigned int valaore,cantitate;
-    cout<<"introdu valoare";
-    cin>>valaore;
-    cout<<"introdu cantitate";
-    cin>>cantitate;
-    Bani bani;
-    bani=Bani(valaore,cantitate);
-    baniService.removeBani(bani);
+    try {
+        std::string valaore, cantitate;
+        cout << "introdu valoare";
+        cin >> valaore;
+        UI::moneyValidator(stoi(valaore));
+        cout << "introdu cantitate";
+        cin >> cantitate;
+        Bani bani;
+        bani = Bani(stoi(valaore), stoi(cantitate));
+        baniService.removeBani(bani);
+    } catch (std::invalid_argument &invalid_argument) {
+        std::cerr << "error\n";
+    } catch (std::exception &exception) {
+        std::cerr << "error\n";
+    }
 }
 
 void UI::getB() {
-    unsigned int valaore;
-    cout<<"introdu valaore";
-    cin>>valaore;
-    Bani bani;
-    bani=baniService.getBani(valaore);
-    cout<<bani.getValaore()<<' '<<bani.getCantitate()<<"\n";
+    try {
+        std::string valaore;
+        cout << "introdu valaore";
+        cin >> valaore;
+        UI::moneyValidator(stoi(valaore));
+        Bani bani;
+        bani = baniService.getBani(stoi(valaore));
+        cout << bani.getValaore() << ' ' << bani.getCantitate() << "\n";
+    } catch (std::invalid_argument &invalid_argument) {
+        std::cerr << "error\n";
+    } catch (std::exception &exception) {
+        std::cerr << "error\n";
+    }
 }
 
 void UI::showAllB() {
-    vector<Bani>all;
-    all=baniService.getAll();
-    all=baniService.getAll();
-    for(int i=0;i<baniService.getSize();i++){
-        cout<<all[i].getValaore()<<' '<<all[i].getCantitate()<<"\n";}
+    vector<Bani> all;
+    all = baniService.getAll();
+    all = baniService.getAll();
+    for (int i = 0; i < baniService.getSize(); i++) {
+        cout << all[i].getValaore() << ' ' << all[i].getCantitate() << "\n";
+    }
 
 }
 
 void UI::del() {
-    unsigned int valaore;
-    cout<<"introdu valoare";
-    cin>>valaore;
-    baniService.delBani(valaore);
+    try {
+        std::string valaore;
+        cout << "introdu valoare";
+        cin >> valaore;
+        UI::moneyValidator(stoi(valaore));
+        baniService.delBani(stoi(valaore));
+    }
+    catch (std::invalid_argument &invalid_argument) {
+        std::cerr << "error\n";
+    } catch (std::exception &exception) {
+        std::cerr << "error\n";
+    }
 }
 
 void UI::getSizeB() {
-cout<<baniService.getSize();
+    cout << baniService.getSize();
 }
+
 /**
  * da rest un nr dat de la tastatura
  */
@@ -239,17 +310,24 @@ void UI::rest() {
 }
 
 void UI::addCredit() {
-cout << "introduceti valaorea";
-int val;
-cin>>val;
-Bani bani;
-bani.setCantitate(1);
-bani.setValoare(val);
-service.addCredit(bani);
+    try {
+        cout << "introduceti valaorea";
+        std::string val;
+        cin >> val;
+        UI::moneyValidator(stoi(val));
+        Bani bani;
+        bani.setCantitate(1);
+        bani.setValoare(stoi(val));
+        service.addCredit(bani);
+    } catch (std::invalid_argument& e){
+        std::cerr << "error\n";
+    } catch (std::exception& e) {
+        std::cerr << "error\n";
+    }
 }
 
 void UI::showCredit() {
-cout<<service.showCredit();
+    cout << service.showCredit();
 }
 
 /**
@@ -258,18 +336,41 @@ cout<<service.showCredit();
 void UI::getRest() {
 
 
-
     std::vector<Bani> rest;
-    rest=service.getRest();
+    rest = service.getRest();
     int n;
-    n= rest.size();
-    for(int i=0; i<n; i++)
+    n = rest.size();
+    for (int i = 0; i < n; i++)
         cout << rest[i].getValaore() << ' ' << rest[i].getCantitate() << "\n";
 }
 
 void UI::buy() {
-cout<<"dati codul produsului pe care vreti sa il cumparati";
-int cod;
-cin>>cod;
-service.buy(cod);
+    try {
+        cout << "dati codul produsului pe care vreti sa il cumparati";
+        std::string cod;
+        cin >> cod;
+        service.buy(stoi(cod));
+    } catch (std::invalid_argument& e){
+        std::cerr << "error\n";
+    }
+}
+
+bool UI::stringValidator(const std::string& string) {
+    return true;
+}
+
+bool UI::isNumber(const std::string& str) {
+    for (auto c: str) {
+        if (std::isdigit(c) == 0)
+            return false;
+    }
+    return true;
+}
+
+bool UI::moneyValidator(int val) {
+    if ((val == 1) || (val == 5) || (val == 10) || (val == 50) || (val == 100) || (val == 500) || (val == 1000) || (val == 2000) || (val == 5000) || (val == 10000)  || (val == 20000) || (val == 50000)) {
+        return true;
+    } else {
+        throw std::exception();
+    }
 }

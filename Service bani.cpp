@@ -60,7 +60,7 @@ std::vector<Bani> BaniService::rest(unsigned int rest) {
     std::vector<int> scade;
     Bani banii;
     while (hasSolution == -1) {
-        while (set[i] > rest)
+        while (set[i] > sum)
             i++;
         index = i;
         while (index < numberOfElements && hasSolution == -1) {
